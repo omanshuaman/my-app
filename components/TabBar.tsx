@@ -1,8 +1,21 @@
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
 
-const TabBar = ({ state, descriptors, navigation, tabIcons }) => {
+type TabBarProps = {
+  tabIcons: {
+    index: any;
+    explore: any;
+  };
+};
+const TabBar: React.FC<BottomTabBarProps & TabBarProps> = ({
+  state,
+  descriptors,
+  navigation,
+  tabIcons,
+}) => {
   const primaryColor = "#0891b2";
   const greyColor = "#737373";
   const insets = useSafeAreaInsets();
@@ -75,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabBar;
+export default React.memo(TabBar);

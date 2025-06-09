@@ -14,7 +14,7 @@ const HomePage = () => {
         data={data}
         showsVerticalScrollIndicator={false}
         onViewableItemsChanged={({ viewableItems: vItems }) => {
-          console.log("Visible items:", JSON.stringify(viewableItems, null, 2));
+          // console.log("Visible items:", JSON.stringify(viewableItems, null, 2));
           viewableItems.value = vItems;
         }}
         contentContainerStyle={{ paddingTop: 40 }}
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   text: {
     fontSize: 20,

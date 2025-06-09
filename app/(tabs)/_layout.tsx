@@ -5,7 +5,8 @@ import TabBar from "@/components/TabBar";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import tabicons from "@/constants/tabicons";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Platform } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 
 const tabIcons = {
   index: tabicons.MonitorIcon,
@@ -18,20 +19,30 @@ export default function TabLayout() {
     <Tabs
       tabBar={(props: any) => <TabBar {...props} tabIcons={tabIcons} />}
       screenOptions={{
-        headerShown: false,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: "absolute",
-          },
-          default: {},
-        }),
+        headerShown: true,
+        headerTransparent: true,
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
+          headerTitleAlign: "center",
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "HelveticaNeue-Bold",
+            fontSize: 18,
+          },
 
+          headerLeft: () => (
+            <TouchableOpacity>
+              <Ionicons name="chevron-back" size={18} color="white" />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity>
+              <Ionicons name="chevron-back" size={18} color="white" />
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="house.fill" color={color} />
           ),

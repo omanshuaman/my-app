@@ -6,7 +6,21 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-const TabBarButton = (props) => {
+type TabBarButtonProps = {
+  key: string;
+  style: any;
+  onPress: () => void;
+  onLongPress: () => void;
+  isFocused: boolean;
+  routeName: string;
+  color: string;
+  label: any;
+  tabIcons: {
+    index: any;
+    explore: any;
+  };
+};
+const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   const { isFocused, label, routeName, color, tabIcons } = props;
   const [currentRoute, setCurrentRoute] = useState(routeName);
 
@@ -14,16 +28,17 @@ const TabBarButton = (props) => {
     setCurrentRoute(routeName);
   }, [routeName]);
 
-  const icons = {
-    index: (props) => (
+  const icons: any = {
+    index: () => (
       <Image
         source={tabIcons.index}
-        tintColor="white"
+        tintColor="yellow"
         resizeMode="contain"
         style={styles.icon}
       />
+      // <MaterialIcons name="people"  size={24} color="black" />
     ),
-    explore: (props) => (
+    explore: () => (
       <Image
         source={tabIcons.explore}
         tintColor="white"
@@ -52,9 +67,7 @@ const TabBarButton = (props) => {
   return (
     <Pressable {...props} style={styles.container}>
       <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
-        {icons[currentRoute]({
-          color,
-        })}
+        {icons[routeName] && icons[routeName]()}
       </Animated.View>
     </Pressable>
   );
