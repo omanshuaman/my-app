@@ -1,12 +1,14 @@
 import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
 
 const TabBar = ({ state, descriptors, navigation, tabIcons }) => {
   const primaryColor = "#0891b2";
   const greyColor = "#737373";
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.tabbar}>
+    <View style={[styles.tabbar, { paddingBottom: insets.bottom }]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -66,11 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#161616",
     alignItems: "center",
     paddingVertical: 10,
-    borderCurve: "continuous",
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
   },
   tabbarItem: {
     flex: 1,
