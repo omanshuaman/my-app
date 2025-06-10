@@ -19,7 +19,7 @@ export default function TabLayout() {
     <Tabs
       tabBar={(props: any) => <TabBar {...props} tabIcons={tabIcons} />}
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerTransparent: true,
       }}>
       <Tabs.Screen

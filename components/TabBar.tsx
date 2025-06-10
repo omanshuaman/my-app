@@ -1,14 +1,11 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageSourcePropType, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
 
 type TabBarProps = {
-  tabIcons: {
-    index: any;
-    explore: any;
-  };
+  tabIcons: { [key: string]: ImageSourcePropType };
 };
 const TabBar: React.FC<BottomTabBarProps & TabBarProps> = ({
   state,
@@ -78,9 +75,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#161616",
+    backgroundColor: "#305f52",
     alignItems: "center",
     paddingVertical: 10,
+    borderTopEndRadius: 40,
+    borderTopStartRadius: 40,
   },
   tabbarItem: {
     flex: 1,

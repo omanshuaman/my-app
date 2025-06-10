@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  StyleSheet,
+} from "react-native";
 import Animated, {
+  interpolate,
+  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -15,60 +22,66 @@ type TabBarButtonProps = {
   routeName: string;
   color: string;
   label: any;
-  tabIcons: {
-    index: any;
-    explore: any;
-  };
+  tabIcons: { [key: string]: ImageSourcePropType };
 };
 const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   const { isFocused, label, routeName, color, tabIcons } = props;
   const [currentRoute, setCurrentRoute] = useState(routeName);
-
+  const scale = useSharedValue(0);
+  useEffect(() => {
+    scale.value = withSpring(isFocused ? 1 : 0, {
+      duration: 350,
+    });
+  }, [scale, isFocused]);
   useEffect(() => {
     setCurrentRoute(routeName);
   }, [routeName]);
 
-  const icons: any = {
+  const icons: { [key: string]: () => React.ReactNode } = {
     index: () => (
       <Image
         source={tabIcons.index}
-        tintColor="yellow"
+        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.5)"}
         resizeMode="contain"
         style={styles.icon}
       />
-      // <MaterialIcons name="people"  size={24} color="black" />
     ),
     explore: () => (
       <Image
         source={tabIcons.explore}
-        tintColor="white"
+        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.5)"}
         resizeMode="contain"
         style={styles.icon}
       />
     ),
   };
-  const backgroundColor = useSharedValue("rgba(0,0,0,0)");
-
-  useEffect(() => {
-    backgroundColor.value = withSpring(
-      isFocused ? "#323232" : "rgba(0,0,0,0)",
-      {
-        duration: 0,
-      }
-    );
-  }, [backgroundColor, isFocused]);
 
   const animatedIconStyle = useAnimatedStyle(() => {
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 1]);
+    const backgroundColor = interpolateColor(
+      scale.value,
+      [0, 1],
+      ["transparent", "white"]
+    );
     return {
-      backgroundColor: backgroundColor.value,
+      transform: [{ scale: scaleValue }],
+      backgroundColor,
     };
   });
 
   return (
     <Pressable {...props} style={styles.container}>
-      <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
+      <Animated.View style={[animatedIconStyle, styles.iconContainer]}>
         {icons[routeName] && icons[routeName]()}
       </Animated.View>
+      {/* <Animated.Text
+        style={{
+          color: isFocused ? color : "rgba(255, 255, 255, 0.5)",
+          fontSize: 10,
+          fontWeight: "500",
+        }}>
+        {label}
+      </Animated.Text> */}
     </Pressable>
   );
 };
@@ -82,9 +95,8 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   iconContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 4,
+    padding: 16,
+    borderRadius: 22,
   },
   icon: {
     width: 32,
@@ -94,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabBarButton;
+export default React.memo(TabBarButton);
