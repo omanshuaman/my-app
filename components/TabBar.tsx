@@ -1,17 +1,13 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { ImageSourcePropType, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
 
-type TabBarProps = {
-  tabIcons: { [key: string]: ImageSourcePropType };
-};
-const TabBar: React.FC<BottomTabBarProps & TabBarProps> = ({
+const TabBar: React.FC<BottomTabBarProps> = ({
   state,
   descriptors,
   navigation,
-  tabIcons,
 }) => {
   const primaryColor = "#0891b2";
   const greyColor = "#737373";
@@ -54,14 +50,12 @@ const TabBar: React.FC<BottomTabBarProps & TabBarProps> = ({
         return (
           <TabBarButton
             key={route.name}
-            style={styles.tabbarItem}
             onPress={onPress}
             onLongPress={onLongPress}
             isFocused={isFocused}
             routeName={route.name}
             color={isFocused ? primaryColor : greyColor}
             label={label}
-            tabIcons={tabIcons}
           />
         );
       })}
@@ -74,16 +68,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     backgroundColor: "#305f52",
     alignItems: "center",
-    paddingVertical: 10,
-    borderTopEndRadius: 40,
-    borderTopStartRadius: 40,
-  },
-  tabbarItem: {
-    flex: 1,
-    alignItems: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
   },
 });
 

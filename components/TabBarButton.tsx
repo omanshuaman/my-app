@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  ImageSourcePropType,
-  Pressable,
-  StyleSheet,
-} from "react-native";
+import { Image, Pressable, StyleSheet } from "react-native";
 import Animated, {
   interpolate,
   interpolateColor,
@@ -15,17 +10,15 @@ import Animated, {
 
 type TabBarButtonProps = {
   key: string;
-  style: any;
   onPress: () => void;
   onLongPress: () => void;
   isFocused: boolean;
   routeName: string;
   color: string;
   label: any;
-  tabIcons: { [key: string]: ImageSourcePropType };
 };
 const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
-  const { isFocused, label, routeName, color, tabIcons } = props;
+  const { isFocused, label, routeName, color } = props;
   const [currentRoute, setCurrentRoute] = useState(routeName);
   const scale = useSharedValue(0);
   useEffect(() => {
@@ -40,16 +33,32 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   const icons: { [key: string]: () => React.ReactNode } = {
     index: () => (
       <Image
-        source={tabIcons.index}
-        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.5)"}
+        source={require("@/assets/icons/home.png")}
+        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
         resizeMode="contain"
         style={styles.icon}
       />
     ),
-    explore: () => (
+    orders: () => (
       <Image
-        source={tabIcons.explore}
-        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.5)"}
+        source={require("@/assets/icons/bag.png")}
+        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
+        resizeMode="contain"
+        style={styles.icon}
+      />
+    ),
+    services: () => (
+      <Image
+        source={require("@/assets/icons/grid.png")}
+        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
+        resizeMode="contain"
+        style={styles.icon}
+      />
+    ),
+    profile: () => (
+      <Image
+        source={require("@/assets/icons/user.png")}
+        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
         resizeMode="contain"
         style={styles.icon}
       />
@@ -57,7 +66,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   };
 
   const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 1]);
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
     const backgroundColor = interpolateColor(
       scale.value,
       [0, 1],
@@ -73,15 +82,16 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     <Pressable {...props} style={styles.container}>
       <Animated.View style={[animatedIconStyle, styles.iconContainer]}>
         {icons[routeName] && icons[routeName]()}
+        <Animated.Text
+          style={{
+            color: isFocused ? color : "rgba(255, 255, 255, 0.9)",
+            fontSize: 9.5,
+            fontFamily: "SpaceMono",
+            width: "100%",
+          }}>
+          {label}
+        </Animated.Text>
       </Animated.View>
-      {/* <Animated.Text
-        style={{
-          color: isFocused ? color : "rgba(255, 255, 255, 0.5)",
-          fontSize: 10,
-          fontWeight: "500",
-        }}>
-        {label}
-      </Animated.Text> */}
     </Pressable>
   );
 };
@@ -91,12 +101,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    gap: 4,
-    paddingVertical: 4,
+    paddingVertical: 2,
   },
   iconContainer: {
-    padding: 16,
-    borderRadius: 22,
+    paddingVertical: 16,
+    paddingHorizontal: 22,
+    borderRadius: 26,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 1,
   },
   icon: {
     width: 32,
