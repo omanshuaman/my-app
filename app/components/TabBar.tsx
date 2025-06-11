@@ -1,30 +1,27 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
-
 const TabBar: React.FC<BottomTabBarProps> = ({
   state,
   descriptors,
   navigation,
 }) => {
+  const insets = useSafeAreaInsets();
   const primaryColor = "#0891b2";
   const greyColor = "#737373";
-  const insets = useSafeAreaInsets();
-
   return (
     <View style={[styles.tabbar, { paddingBottom: insets.bottom }]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
-        const label =
+        const label: string =
           options.tabBarLabel !== undefined
-            ? options.tabBarLabel
+            ? String(options.tabBarLabel)
             : options.title !== undefined
             ? options.title
             : route.name;
-
-        if (["_sitemap", "+not-found"].includes(route.name)) return null;
 
         const isFocused = state.index === index;
 
@@ -62,7 +59,6 @@ const TabBar: React.FC<BottomTabBarProps> = ({
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   tabbar: {
     position: "absolute",
@@ -77,5 +73,4 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 35,
   },
 });
-
-export default React.memo(TabBar);
+export default TabBar;

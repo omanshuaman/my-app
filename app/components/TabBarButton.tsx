@@ -7,7 +7,6 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-
 type TabBarButtonProps = {
   key: string;
   onPress: () => void;
@@ -15,11 +14,13 @@ type TabBarButtonProps = {
   isFocused: boolean;
   routeName: string;
   color: string;
-  label: any;
+
+  label: string;
 };
 const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   const { isFocused, label, routeName, color } = props;
   const [currentRoute, setCurrentRoute] = useState(routeName);
+
   const scale = useSharedValue(0);
   useEffect(() => {
     scale.value = withSpring(isFocused ? 1 : 0, {
@@ -29,7 +30,18 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   useEffect(() => {
     setCurrentRoute(routeName);
   }, [routeName]);
-
+  const animatedIconStyle = useAnimatedStyle(() => {
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
+    const backgroundColor = interpolateColor(
+      scale.value,
+      [0, 1],
+      ["transparent", "white"]
+    );
+    return {
+      transform: [{ scale: scaleValue }],
+      backgroundColor,
+    };
+  });
   const icons: { [key: string]: () => React.ReactNode } = {
     index: () => (
       <Image
@@ -64,20 +76,6 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
       />
     ),
   };
-
-  const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
-    const backgroundColor = interpolateColor(
-      scale.value,
-      [0, 1],
-      ["transparent", "white"]
-    );
-    return {
-      transform: [{ scale: scaleValue }],
-      backgroundColor,
-    };
-  });
-
   return (
     <Pressable {...props} style={styles.container}>
       <Animated.View style={[animatedIconStyle, styles.iconContainer]}>
@@ -95,6 +93,8 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     </Pressable>
   );
 };
+
+export default TabBarButton;
 
 const styles = StyleSheet.create({
   container: {
@@ -119,5 +119,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-export default React.memo(TabBarButton);
