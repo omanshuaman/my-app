@@ -11,7 +11,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
 }) => {
   const insets = useSafeAreaInsets();
   const primaryColor = "#0891b2";
-  const greyColor = "#737373";
+  const lightColor = "rgba(255, 255, 255, 0.9)";
   return (
     <View style={[styles.tabbar, { paddingBottom: insets.bottom }]}>
       {state.routes.map((route, index) => {
@@ -51,7 +51,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
             onLongPress={onLongPress}
             isFocused={isFocused}
             routeName={route.name}
-            color={isFocused ? primaryColor : greyColor}
+            color={isFocused ? primaryColor : lightColor}
             label={label}
           />
         );

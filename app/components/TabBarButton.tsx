@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet } from "react-native";
-import Animated, {
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -46,7 +46,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     index: () => (
       <Image
         source={require("@/assets/icons/home.png")}
-        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
+        tintColor={color}
         resizeMode="contain"
         style={styles.icon}
       />
@@ -54,7 +54,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     orders: () => (
       <Image
         source={require("@/assets/icons/bag.png")}
-        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
+        tintColor={color}
         resizeMode="contain"
         style={styles.icon}
       />
@@ -62,7 +62,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     services: () => (
       <Image
         source={require("@/assets/icons/grid.png")}
-        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
+        tintColor={color}
         resizeMode="contain"
         style={styles.icon}
       />
@@ -70,7 +70,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     profile: () => (
       <Image
         source={require("@/assets/icons/user.png")}
-        tintColor={isFocused ? color : "rgba(255, 255, 255, 0.9)"}
+        tintColor={color}
         resizeMode="contain"
         style={styles.icon}
       />
@@ -78,18 +78,25 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   };
   return (
     <Pressable {...props} style={styles.container}>
-      <Animated.View style={[animatedIconStyle, styles.iconContainer]}>
+      <View
+        style={[
+          styles.iconContainer,
+          {
+            backgroundColor: isFocused ? "white" : "transparent",
+            transform: [{ scale: isFocused ? 1 : 0.85 }],
+          },
+        ]}>
         {icons[routeName] && icons[routeName]()}
-        <Animated.Text
+        <Text
           style={{
             color: isFocused ? color : "rgba(255, 255, 255, 0.9)",
-            fontSize: 9.5,
-            fontFamily: "SpaceMono",
+            fontSize: 10,
+
             width: "100%",
           }}>
           {label}
-        </Animated.Text>
-      </Animated.View>
+        </Text>
+      </View>
     </Pressable>
   );
 };
