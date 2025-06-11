@@ -90,8 +90,9 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
         <Text
           style={{
             color: isFocused ? color : "rgba(255, 255, 255, 0.9)",
-            fontSize: 10,
-
+            fontSize: 9.5,
+            maxWidth: "100%",
+            fontFamily: "SpaceMono",
             width: "100%",
           }}>
           {label}
