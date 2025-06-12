@@ -8,8 +8,8 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const { colors } = useTheme();
   const { buildHref } = useLinkBuilder();
   const insets = useSafeAreaInsets();
-  const primaryColor = "#0891b2";
-  const lightColor = "rgba(255, 255, 255, 0.9)";
+  const primaryColor = "blue";
+  const lightColor = "grey";
   return (
     <View style={[styles.tabbar, { paddingBottom: insets.bottom }]}>
       {state.routes.map((route, index) => {
@@ -66,11 +66,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    backgroundColor: "#305f52",
+    backgroundColor: "#fff",
     alignItems: "center",
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
   },
 });

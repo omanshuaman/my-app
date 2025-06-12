@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import {
+import React, { useEffect } from "react";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
+import Animated, {
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -19,29 +19,6 @@ type TabBarButtonProps = {
 };
 const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   const { isFocused, label, routeName, color } = props;
-  const [currentRoute, setCurrentRoute] = useState(routeName);
-
-  const scale = useSharedValue(0);
-  useEffect(() => {
-    scale.value = withSpring(isFocused ? 1 : 0, {
-      duration: 350,
-    });
-  }, [scale, isFocused]);
-  useEffect(() => {
-    setCurrentRoute(routeName);
-  }, [routeName]);
-  const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
-    const backgroundColor = interpolateColor(
-      scale.value,
-      [0, 1],
-      ["transparent", "white"]
-    );
-    return {
-      transform: [{ scale: scaleValue }],
-      backgroundColor,
-    };
-  });
   const icons: { [key: string]: () => React.ReactNode } = {
     index: () => (
       <Image
@@ -76,28 +53,39 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
       />
     ),
   };
+  const scale = useSharedValue(0);
+  useEffect(() => {
+    scale.value = withSpring(isFocused ? 1 : 0, {
+      duration: 350,
+    });
+  }, [scale, isFocused]);
+  const animatedIconStyle = useAnimatedStyle(() => {
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
+    const backgroundColor = interpolateColor(
+      scale.value,
+      [0, 1],
+      ["transparent", "white"]
+    );
+    return {
+      transform: [{ scale: scaleValue }],
+      backgroundColor,
+    };
+  });
+
   return (
     <Pressable {...props} style={styles.container}>
-      <View
-        style={[
-          styles.iconContainer,
-          {
-            backgroundColor: isFocused ? "white" : "transparent",
-            transform: [{ scale: isFocused ? 1 : 0.85 }],
-          },
-        ]}>
+      <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
         {icons[routeName] && icons[routeName]()}
         <Text
           style={{
             color: isFocused ? color : "rgba(255, 255, 255, 0.9)",
             fontSize: 9.5,
-            maxWidth: "100%",
             fontFamily: "SpaceMono",
             width: "100%",
           }}>
           {label}
         </Text>
-      </View>
+      </Animated.View>
     </Pressable>
   );
 };

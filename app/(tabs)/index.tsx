@@ -1,32 +1,41 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-const Home = () => {
+import { FlatList, StyleSheet, View, ViewToken } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
+import ListItem from "../components/ListItem";
+
+const data = new Array(50).fill(0).map((_, index) => ({
+  id: index,
+}));
+const HomePage = () => {
+  const viewableItems = useSharedValue<ViewToken[]>([]);
   return (
     <View style={styles.container}>
-      <View style={styles.box} />
+      <FlatList
+        data={data}
+        showsVerticalScrollIndicator={false}
+        onViewableItemsChanged={({ viewableItems: vItems }) => {
+          // console.log("Visible items:", JSON.stringify(viewableItems, null, 2));
+          viewableItems.value = vItems;
+        }}
+        renderItem={({ item }) => (
+          <ListItem item={item} viewableItems={viewableItems} />
+        )}
+      />
     </View>
   );
 };
 
-export default Home;
+export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    alignItems: "center",
+    // marginTop: 60,
   },
-
-  box: {
-    width: 130,
-    height: 130,
-    borderRadius: 30,
-    marginHorizontal: 10,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    backgroundColor: "#6EE7B7",
-    elevation: 4,
+  text: {
+    fontSize: 20,
+    color: "#333",
   },
 });

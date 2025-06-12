@@ -1,12 +1,8 @@
-import React, { useEffect } from "react";
-import { Image, Pressable, StyleSheet, Text } from "react-native";
-import Animated, {
-  interpolate,
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import React from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 type TabBarButtonProps = {
   key: string;
   onPress: () => void;
@@ -20,72 +16,19 @@ type TabBarButtonProps = {
 const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
   const { isFocused, label, routeName, color } = props;
   const icons: { [key: string]: () => React.ReactNode } = {
-    index: () => (
-      <Image
-        source={require("@/assets/icons/home.png")}
-        tintColor={color}
-        resizeMode="contain"
-        style={styles.icon}
-      />
+    index: () => <MaterialIcons name="groups" size={26} color={color} />,
+
+    messages: () => (
+      <MaterialCommunityIcons name="message-text" size={26} color={color} />
     ),
-    orders: () => (
-      <Image
-        source={require("@/assets/icons/bag.png")}
-        tintColor={color}
-        resizeMode="contain"
-        style={styles.icon}
-      />
-    ),
-    services: () => (
-      <Image
-        source={require("@/assets/icons/grid.png")}
-        tintColor={color}
-        resizeMode="contain"
-        style={styles.icon}
-      />
-    ),
-    profile: () => (
-      <Image
-        source={require("@/assets/icons/user.png")}
-        tintColor={color}
-        resizeMode="contain"
-        style={styles.icon}
-      />
-    ),
+    settings: () => <Ionicons name="settings-sharp" size={24} color={color} />,
   };
-  const scale = useSharedValue(0);
-  useEffect(() => {
-    scale.value = withSpring(isFocused ? 1 : 0, {
-      duration: 350,
-    });
-  }, [scale, isFocused]);
-  const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
-    const backgroundColor = interpolateColor(
-      scale.value,
-      [0, 1],
-      ["transparent", "white"]
-    );
-    return {
-      transform: [{ scale: scaleValue }],
-      backgroundColor,
-    };
-  });
 
   return (
     <Pressable {...props} style={styles.container}>
-      <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
+      <View style={[styles.iconContainer]}>
         {icons[routeName] && icons[routeName]()}
-        <Text
-          style={{
-            color: isFocused ? color : "rgba(255, 255, 255, 0.9)",
-            fontSize: 9.5,
-            fontFamily: "SpaceMono",
-            width: "100%",
-          }}>
-          {label}
-        </Text>
-      </Animated.View>
+      </View>
     </Pressable>
   );
 };
@@ -100,13 +43,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   iconContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 22,
-    borderRadius: 26,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 1,
+    paddingVertical: 10,
   },
   icon: {
     width: 32,

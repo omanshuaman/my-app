@@ -1,14 +1,12 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-import React from "react";
+import { useLinkBuilder, useTheme } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
-const TabBar: React.FC<BottomTabBarProps> = ({
-  state,
-  descriptors,
-  navigation,
-}) => {
+
+const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+  const { colors } = useTheme();
+  const { buildHref } = useLinkBuilder();
   const insets = useSafeAreaInsets();
   const primaryColor = "#0891b2";
   const lightColor = "rgba(255, 255, 255, 0.9)";
@@ -18,7 +16,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
         const { options } = descriptors[route.key];
         const label: string =
           options.tabBarLabel !== undefined
-            ? String(options.tabBarLabel)
+            ? options.tabBarLabel.toString()
             : options.title !== undefined
             ? options.title
             : route.name;
@@ -59,6 +57,9 @@ const TabBar: React.FC<BottomTabBarProps> = ({
     </View>
   );
 };
+
+export default TabBar;
+
 const styles = StyleSheet.create({
   tabbar: {
     position: "absolute",
@@ -73,4 +74,3 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 35,
   },
 });
-export default TabBar;
