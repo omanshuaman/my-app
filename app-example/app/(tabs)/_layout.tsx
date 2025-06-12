@@ -1,18 +1,12 @@
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
 import React from "react";
-
-import TabBar from "@/components/TabBar";
-import { useColorScheme } from "@/hooks/useColorScheme";
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+import TabBar from "../components/TabBar";
+const TabLayout = () => {
   return (
     <Tabs
-      tabBar={(props: any) => <TabBar {...props} />}
-      screenOptions={{
-        headerShown: false,
-      }}>
+      tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}
+      screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="index"
         options={{
@@ -39,4 +33,6 @@ export default function TabLayout() {
       />
     </Tabs>
   );
-}
+};
+
+export default TabLayout;
