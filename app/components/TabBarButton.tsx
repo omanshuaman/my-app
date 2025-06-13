@@ -40,15 +40,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 2,
   },
   iconContainer: {
-    paddingVertical: 12,
-  },
-  icon: {
-    width: 32,
-    height: 32,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingVertical: 14,
   },
 });

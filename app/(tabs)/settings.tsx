@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 const Profile = () => {
   return (
     <View style={styles.container}>
-      <View style={[styles.box]} />
+      <View style={styles.box} />
     </View>
   );
 };

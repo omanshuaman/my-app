@@ -17,7 +17,7 @@ export default function TabLayout() {
           <TouchableOpacity style={{ marginLeft: 18 }}>
             <Image
               source={require("../../assets/icons/sidebar.png")}
-              style={{ width: 34, height: 34 }}
+              style={{ width: 32, height: 32 }}
               tintColor="black"
             />
           </TouchableOpacity>

@@ -28,15 +28,13 @@ const ListItem: React.FC<ListItemProps> = React.memo(
   ({ item, viewableItems }) => {
     const rStyle = useAnimatedStyle(() => {
       const isVisible = Boolean(
-        viewableItems.value
-          .filter((token: ViewToken) => token.isViewable)
-          .find(
-            (viewableItem: ViewToken) => viewableItem.item.key === item?.key
-          )
+        viewableItems.value.find(
+          (viewableItem: ViewToken) => viewableItem.item.key === item?.key
+        )
       );
 
       return {
-        opacity: withTiming(isVisible ? 1 : 0.1),
+        opacity: withTiming(isVisible ? 1 : 0.2),
         transform: [
           {
             scale: withTiming(isVisible ? 1 : 0.8, {
@@ -45,7 +43,7 @@ const ListItem: React.FC<ListItemProps> = React.memo(
           },
         ],
       };
-    }, []);
+    });
 
     if (!item) return null;
 
@@ -53,9 +51,15 @@ const ListItem: React.FC<ListItemProps> = React.memo(
       <Animated.View style={[styles.card, rStyle]}>
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={styles.textContainer}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.jobTitle}>{item.jobTitle}</Text>
-          <Text style={styles.email}>{item.email}</Text>
+          <Text style={styles.name} numberOfLines={1}>
+            {item.name}
+          </Text>
+          <Text style={styles.jobTitle} numberOfLines={1}>
+            {item.jobTitle}
+          </Text>
+          <Text style={styles.email} numberOfLines={1}>
+            {item.email}
+          </Text>
         </View>
       </Animated.View>
     );
@@ -76,15 +80,15 @@ const styles = StyleSheet.create({
     padding: 18,
   },
   image: {
-    width: 70,
-    height: 70,
+    width: 65,
+    height: 65,
     borderRadius: 40,
     marginRight: 12,
   },
   textContainer: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
+    gap: 1,
   },
   name: {
     fontSize: 20,
@@ -92,10 +96,9 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsMedium",
   },
   jobTitle: {
-    fontSize: 14,
-
+    fontSize: 13,
     color: "#6B6B6B",
-    opacity: 0.7,
+    opacity: 0.75,
     fontFamily: "PoppinsRegular",
   },
   email: {

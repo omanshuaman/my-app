@@ -1,12 +1,9 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { useLinkBuilder, useTheme } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarButton from "./TabBarButton";
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
-  const { colors } = useTheme();
-  const { buildHref } = useLinkBuilder();
   const insets = useSafeAreaInsets();
   const primaryColor = "blue";
   const lightColor = "grey";
@@ -65,8 +62,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     flexDirection: "row",
-    justifyContent: "space-evenly",
     backgroundColor: "#fff",
-    alignItems: "center",
   },
 });
