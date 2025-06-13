@@ -19,7 +19,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
     index: () => <MaterialIcons name="groups" size={26} color={color} />,
 
     messages: () => (
-      <MaterialCommunityIcons name="message-text" size={26} color={color} />
+      <MaterialCommunityIcons name="message-text" size={24} color={color} />
     ),
     settings: () => <Ionicons name="settings-sharp" size={24} color={color} />,
   };
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   iconContainer: {
-    paddingVertical: 10,
+    paddingVertical: 12,
   },
   icon: {
     width: 32,

@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
 import { Image, TouchableOpacity } from "react-native";
@@ -11,22 +10,26 @@ export default function TabLayout() {
       screenOptions={{
         headerTitle: "",
         headerStyle: {
-          height: 100,
+          height: 55,
         },
         headerTransparent: true,
         headerLeft: () => (
-          <TouchableOpacity style={{ marginLeft: 16 }}>
-            <Ionicons name="menu" size={28} color="#333" />
+          <TouchableOpacity style={{ marginLeft: 18 }}>
+            <Image
+              source={require("../../assets/icons/sidebar.png")}
+              style={{ width: 34, height: 34 }}
+              tintColor="black"
+            />
           </TouchableOpacity>
         ),
         headerRight: () => (
           <Image
-            source={{ uri: "https://randomuser.me/api/portraits/men/1.jpg" }}
+            source={{ uri: "https://randomuser.me/api/portraits/women/7.jpg" }}
             style={{
-              width: 36,
-              height: 36,
-              borderRadius: 18,
-              marginRight: 16,
+              width: 42,
+              height: 42,
+              borderRadius: 24,
+              marginRight: 18,
             }}
           />
         ),
