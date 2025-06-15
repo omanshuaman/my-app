@@ -23,50 +23,46 @@ type ListItemProps = {
     email: string;
   };
 };
-
-const ListItem: React.FC<ListItemProps> = React.memo(
-  ({ item, viewableItems }) => {
-    const rStyle = useAnimatedStyle(() => {
-      const isVisible = Boolean(
-        viewableItems.value.find(
-          (viewableItem: ViewToken) => viewableItem.item.key === item?.key
-        )
-      );
-
-      return {
-        opacity: withTiming(isVisible ? 1 : 0.2),
-        transform: [
-          {
-            scale: withTiming(isVisible ? 1 : 0.8, {
-              duration: 300,
-            }),
-          },
-        ],
-      };
-    });
-
-    if (!item) return null;
-
-    return (
-      <Animated.View style={[styles.card, rStyle]}>
-        <Image source={{ uri: item.image }} style={styles.image} />
-        <View style={styles.textContainer}>
-          <Text style={styles.name} numberOfLines={1}>
-            {item.name}
-          </Text>
-          <Text style={styles.jobTitle} numberOfLines={1}>
-            {item.jobTitle}
-          </Text>
-          <Text style={styles.email} numberOfLines={1}>
-            {item.email}
-          </Text>
-        </View>
-      </Animated.View>
+const ListItem: React.FC<ListItemProps> = ({ item, viewableItems }) => {
+  const rStyle = useAnimatedStyle(() => {
+    const isVisible = Boolean(
+      viewableItems.value.find(
+        (viewableItem: ViewToken) => viewableItem.item.key === item?.key
+      )
     );
-  }
-);
 
-export default ListItem;
+    return {
+      opacity: withTiming(isVisible ? 1 : 0.2),
+      transform: [
+        {
+          scale: withTiming(isVisible ? 1 : 0.8, {
+            duration: 300,
+          }),
+        },
+      ],
+    };
+  });
+
+  if (!item) return null;
+  return (
+    <Animated.View style={[styles.card, rStyle]}>
+      <Image source={{ uri: item.image }} style={styles.image} />
+      <View style={styles.textContainer}>
+        <Text style={styles.name} numberOfLines={1}>
+          {item.name}
+        </Text>
+        <Text style={styles.jobTitle} numberOfLines={1}>
+          {item.jobTitle}
+        </Text>
+        <Text style={styles.email} numberOfLines={1}>
+          {item.email}
+        </Text>
+      </View>
+    </Animated.View>
+  );
+};
+
+export default React.memo(ListItem);
 
 const styles = StyleSheet.create({
   card: {

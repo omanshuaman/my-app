@@ -4,7 +4,8 @@ import { FlatList, Image, StyleSheet, View, ViewToken } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ListItem from "../components/ListItem";
-const data = new Array(50).fill(0).map((_, index) => ({
+
+const data = new Array(50).fill(0).map(() => ({
   key: faker.string.uuid(),
   image: `https://randomuser.me/api/portraits/${faker.helpers.arrayElement([
     "women",
@@ -15,9 +16,9 @@ const data = new Array(50).fill(0).map((_, index) => ({
   email: faker.internet.email(),
 }));
 
-const HomePage = () => {
-  const viewableItems = useSharedValue<ViewToken[]>([]);
+const People = () => {
   const insets = useSafeAreaInsets();
+  const viewableItems = useSharedValue<ViewToken[]>([]);
 
   return (
     <View style={styles.container}>
@@ -42,7 +43,7 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default People;
 
 const styles = StyleSheet.create({
   container: {
