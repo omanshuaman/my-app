@@ -1,16 +1,17 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { PlatformPressable, Text } from "@react-navigation/elements";
 import { useLinkBuilder, useTheme } from "@react-navigation/native";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import TabBarButton from "./TabBarButton";
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const { colors } = useTheme();
   const { buildHref } = useLinkBuilder();
   const insets = useSafeAreaInsets();
-
+  const primaryColor = "#0891b2";
+  const lightColor = "rgba(255, 255, 255, 0.9)";
   return (
-    <View style={{ flexDirection: "row", paddingBottom: insets.bottom }}>
+    <View style={[{ paddingBottom: insets.bottom }, styles.tabbar]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label: string =
@@ -42,19 +43,15 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
         };
 
         return (
-          <PlatformPressable
-            key={route.key}
-            href={buildHref(route.name, route.params)}
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarButtonTestID}
+          <TabBarButton
+            key={route.name}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 }}>
-            <Text style={{ color: isFocused ? colors.primary : colors.text }}>
-              {label}
-            </Text>
-          </PlatformPressable>
+            isFocused={isFocused}
+            routeName={route.name}
+            color={isFocused ? primaryColor : lightColor}
+            label={label}
+          />
         );
       })}
     </View>
@@ -62,3 +59,18 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 };
 
 export default TabBar;
+
+const styles = StyleSheet.create({
+  tabbar: {
+    position: "absolute",
+    bottom: 0,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    backgroundColor: "#305f52",
+    alignItems: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
+  },
+});
