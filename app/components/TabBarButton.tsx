@@ -1,5 +1,12 @@
-import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
+import Animated, {
+  interpolate,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 type TabBarButtonProps = {
   key: string;
   onPress: () => void;
@@ -7,11 +14,11 @@ type TabBarButtonProps = {
   isFocused: boolean;
   routeName: string;
   color: string;
-
   label: string;
 };
 const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
-  const { isFocused, label, routeName, color } = props;
+  const { key, onPress, onLongPress, isFocused, routeName, color, label } =
+    props;
   const icons: { [key: string]: () => React.ReactNode } = {
     index: () => (
       <Image
@@ -46,19 +53,28 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
       />
     ),
   };
-
+  const scale = useSharedValue(0);
+  useEffect(() => {
+    scale.value = withSpring(isFocused ? 1 : 0, {
+      duration: 350,
+    });
+  }, [scale, isFocused]);
+  const animatedIconStyle = useAnimatedStyle(() => {
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.9]);
+    const backgroundColor = interpolateColor(
+      scale.value,
+      [0, 1],
+      ["transparent", "white"]
+    );
+    return {
+      transform: [{ scale: scaleValue }],
+      backgroundColor,
+    };
+  });
   return (
     <Pressable {...props} style={styles.container}>
-      <View
-        style={[
-          styles.iconContainer,
-          {
-            backgroundColor: isFocused ? "white" : "transparent",
-            transform: isFocused ? [{ scale: 0.9 }] : [{ scale: 0.8 }],
-            borderRadius: 26,
-          },
-        ]}>
-        {icons[routeName] && icons[routeName]()}
+      <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
+        {icons[routeName]()}
         <Text
           style={{
             color: color,
@@ -67,7 +83,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = (props) => {
           }}>
           {label}
         </Text>
-      </View>
+      </Animated.View>
     </Pressable>
   );
 };
@@ -77,8 +93,8 @@ export default TabBarButton;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 2,
   },
   iconContainer: {
@@ -87,6 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 26,
     gap: 1,
   },
   icon: {

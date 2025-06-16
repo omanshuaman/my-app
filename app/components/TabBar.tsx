@@ -44,7 +44,7 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 
         return (
           <TabBarButton
-            key={route.name}
+            key={route.key}
             onPress={onPress}
             onLongPress={onLongPress}
             isFocused={isFocused}
@@ -59,7 +59,6 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 };
 
 export default TabBar;
-
 const styles = StyleSheet.create({
   tabbar: {
     position: "absolute",
