@@ -5,8 +5,8 @@ import TabBar from "../components/TabBar";
 export default function TabLayout() {
   return (
     <Tabs
-      tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}
-      screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
+      screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}
+      tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
       <Tabs.Screen
         name="index"
         options={{
@@ -25,6 +25,7 @@ export default function TabLayout() {
           title: "Services",
         }}
       />
+
       <Tabs.Screen
         name="profile"
         options={{
